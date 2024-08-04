@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 
 	"github.com/IBM/sarama"
@@ -30,6 +31,11 @@ func consume(topic string, brokers []string) error {
 	defer partitionConsumer.Close()
 
 	for msg := range partitionConsumer.Messages() {
+		var data Data
+		if err := json.Unmarshal(msg.Value, &data); err != nil {
+			log.Println("Error JSON Unmarshalling data", err)
+			continue
+		}
 		log.Printf("Received message: key=%s value=%s\n ", string(msg.Key), string(msg.Value))
 		// Process the data here (e.g., store in database, send to another system)
 	}

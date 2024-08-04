@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -24,11 +25,18 @@ func produce(dataChan chan Data, topic string, brokers []string) error {
 	}()
 
 	for data := range dataChan {
+		jsonData, err := json.Marshal(data)
+		if err != nil {
+			log.Println("Error JSON Marshalling data", err)
+			continue
+		}
+		// Prepare Prodcuer Message
 		message := &sarama.ProducerMessage{
 			Topic: topic,
 			Key:   sarama.StringEncoder(fmt.Sprintf("%d", data.Timestamp)),
-			Value: sarama.StringEncoder(fmt.Sprintf("%d", data.Value)),
+			Value: sarama.ByteEncoder(jsonData),
 		}
+		// Send Message to Broker
 		partition, offset, err := producer.SendMessage(message)
 
 		if err != nil {
