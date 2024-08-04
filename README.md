@@ -11,7 +11,7 @@ Apache Kafka is an open-source distributed event streaming platform. It's design
 ## How it Works
 - **Producers** create and send messages to specific topics.
 - **Brokers** receive these messages and store them in partitions (distributed logs) for durability and performance.
-- **Consumers** subscribe to topics and consume messages from the partitions. - Kafka ensures that messages are delivered to consumers in the order they were produced.
+- **Consumers** subscribe to topics and consume messages from the partitions. Kafka ensures that messages are delivered to consumers in the order they were produced.
 
 ## Key Features and Benefits
 - **High throughput:** Kafka can handle massive volumes of data with low latency.
