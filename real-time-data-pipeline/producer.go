@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/IBM/sarama"
 )
@@ -31,9 +32,10 @@ func produce(dataChan chan Data, topic string, brokers []string) error {
 			continue
 		}
 		// Prepare Prodcuer Message
+		msgKey := data.Timestamp / int64(time.Millisecond)
 		message := &sarama.ProducerMessage{
 			Topic: topic,
-			Key:   sarama.StringEncoder(fmt.Sprintf("%d", data.Timestamp)),
+			Key:   sarama.StringEncoder(fmt.Sprintf("%d", msgKey)),
 			Value: sarama.ByteEncoder(jsonData),
 		}
 		// Send Message to Broker

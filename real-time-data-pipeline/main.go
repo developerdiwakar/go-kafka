@@ -1,22 +1,23 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 )
 
 // Data structure for simulated data
 type Data struct {
-	Timestamp int64 `json:"timestamp"`
-	Value     int   `json:"value"`
+	Timestamp int64  `json:"timestamp"`
+	Value     string `json:"value"`
 }
 
 // Simulate data integration
 func generateData(dataChan chan Data) {
 	for {
 		data := Data{
-			Timestamp: time.Now().UnixNano() / int64(time.Millisecond),
-			Value:     rand.Intn(100),
+			Timestamp: time.Now().UnixNano(),
+			Value:     fmt.Sprintf("Random Message %d", rand.Intn(1000)),
 		}
 		dataChan <- data
 		time.Sleep(1000 * time.Millisecond)

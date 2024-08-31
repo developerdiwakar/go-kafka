@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 
 	"github.com/IBM/sarama"
@@ -36,7 +37,7 @@ func consume(topic string, brokers []string) error {
 			log.Println("Error JSON Unmarshalling data", err)
 			continue
 		}
-		log.Printf("Received message: key=%s value=%s\n ", string(msg.Key), string(msg.Value))
+		fmt.Printf("Received message: key=%s value=%s\n ", string(msg.Key), string(msg.Value))
 		// Process the data here (e.g., store in database, send to another system)
 	}
 
